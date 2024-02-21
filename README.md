@@ -62,5 +62,9 @@ recursive_counter:
 - `pop ebp`, this restores the old ebp before we call `ret`
 - `ret [n]` where n is the total number bytes of arguments before return address
 
+### Testing in C
+
+A simple test, where `gcd.inc` linked into `gcd.test.c` to test that `gcd(50120, 120) == 40`
+
 ## Reference
 - `utils.asm` https://asmtutor.com/#lesson3
