@@ -58,6 +58,8 @@ recursive_counter:
     - decrement `eax` by 1
     - push `eax` on stack as first argument of call
     - call recursive_counter (...)
+- `pop ebp`, this restores the old ebp before we call `ret`
+- `ret [n]` where n is the total number bytes of arguments before return address
 
 ## Reference
 - `utils.asm` https://asmtutor.com/#lesson3
