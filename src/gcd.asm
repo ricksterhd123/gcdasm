@@ -1,52 +1,37 @@
-%include "test.inc"
+%include "utils.asm"
 
 section .text
 global _start
 
 gcd:
     push ebp
+    mov ebp, esp
 
-    mov eax, [esp + 4]
-    mov ebx, [esp + 8]
+    mov eax, [esp + 8]
+    mov ebx, [esp + 12]
 
-    test eax, eax
-    je .gcd_zero
+    cmp ebx, 0
+    jle .gcd_zero
 
-    ; swap eax and ebx
-    mov ecx, eax
-    mov eax, ebx
-    mov ebx, ecx
-    
-    ; clear registers ecx, edx
-    xor ecx, ecx ; used in the swap
     xor edx, edx ; remainder from div
-
     div ebx  ; eax = eax / ebx, edx = eax % ebx
 
-    push ebx ; a
-    push edx ; b % a
+    push edx ; a % b
+    push ebx ; b
 
-    add esp, 8
-    call gcd ; gcd(b % a, a)
-    pop eax
-    ret
+    call gcd ; gcd(b, a % b)
 
 .gcd_zero:
-    mov eax, 0
-    ret
+    pop ebp
+    ret 8
 
 _start:
     ; Push arguments onto the stack
-    push 10
-    push 5
+    push 50120  ; b
+    push 120    ; a
 
-    call test
-
-    ; Call the subroutine
-    call gcd
-
-    ; Clean up the stack
-    add esp, 4   ; 4 bytes for local variables + 4 bytes for 2 arguments
+    call gcd ; r = gcd(a, b)
+    call iprintLF ; iprintLF(r)
 
     ; Exit the program
     mov eax, 1
